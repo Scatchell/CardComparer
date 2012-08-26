@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- the application context definition for the springapp DispatcherServlet -->
+	
+	<bean name="/cards.htm" class="cardcomparer.web.CardController">
+		<property name="cardManager" ref="cardManager"/>
+	</bean>
+	
+	<bean name="/addcard.htm" class="cardcomparer.web.AddCardController">
+		<property name="sessionForm" value="true"/>				
+		<property name="commandName" value="card"/>
+		<property name="commandClass" value="cardcomparer.domain.Card"/>
+		<property name="validator">
+			<bean class="cardcomparer.service.CardValidator"/>
+		</property>
+		<property name="formView" value="addcard"></property>
+		<property name="successView" value="cards.htm"></property>
+		<property name="cardManager" ref="cardManager"></property>
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages"/>
+    </bean>
+	
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+</beans>
